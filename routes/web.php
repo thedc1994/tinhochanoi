@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 
+require base_path('routes/auth.php');
+
 Route::get('/', function () {
     return view('welcome');
 });
