@@ -53,8 +53,9 @@ License: For each use you must have a valid license purchased only from above li
             <!--begin::Wrapper-->
             <div class="w-lg-600px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
                 <!--begin::Form-->
-                <form class="form w-100" novalidate="novalidate" id="kt_sign_up_form">
+                <form method="POST" action="{{ route('register.post') }}"  class="form w-100" novalidate="novalidate" id="kt_sign_up_form">
                     <!--begin::Heading-->
+                    @csrf
                     <div class="mb-10 text-center">
                         <!--begin::Title-->
                         <h1 class="text-dark mb-3">@lang('auth.create_an_account')</h1>
@@ -141,7 +142,7 @@ License: For each use you must have a valid license purchased only from above li
                     <div class="fv-row mb-5">
                         <label class="form-label fw-bolder text-dark fs-6">@lang('auth.confirm_password')</label>
                         <input class="form-control form-control-lg form-control-solid" type="password" placeholder=""
-                               name="confirm-password" autocomplete="off"/>
+                               name="password_confirmation" autocomplete="off"/>
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
@@ -195,6 +196,7 @@ License: For each use you must have a valid license purchased only from above li
         'last_name_required' => __('auth_validation.last_name_required'),
         'email_required' => __('auth_validation.email_required'),
         'email_invalid' => __('auth_validation.email_invalid'),
+        'username_required'=> __('auth_validation.username_required'),
         'password_required' => __('auth_validation.password_required'),
         'password_invalid' => __('auth_validation.password_invalid'),
         'confirm_required' => __('auth_validation.confirm_required'),
@@ -202,10 +204,11 @@ License: For each use you must have a valid license purchased only from above li
         'accept_toc' => __('auth_validation.accept_toc'),
         'success_message' => __('auth_validation.success_message'),
         'error_message' => __('auth_validation.error_message'),
+        'got_it'=> __('auth_validation.got_it'),
     ]) !!};
 
 </script>
-<script src="assets/js/custom/authentication/sign-up/general.js"></script>
+<script src="assets/js/custom/authentication/sign-up/general.js?time={{\Carbon\Carbon::now()->timestamp}}"></script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
 </body>

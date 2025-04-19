@@ -8,6 +8,7 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 
 require base_path('routes/auth.php');
+require base_path('routes/admin.php');
 
 Route::get('/', function () {
     return view('welcome');

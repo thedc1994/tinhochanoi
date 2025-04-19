@@ -27,11 +27,15 @@ var KTSignupGeneral = (function () {
                             }
                         }
                     },
-                    email: {
+                    username: {
                         validators: {
                             notEmpty: {
-                                message: validationMessages.email_required
-                            },
+                                message: validationMessages.username_required
+                            }
+                        }
+                    },
+                    email: {
+                        validators: {
                             emailAddress: {
                                 message: validationMessages.email_invalid
                             }
@@ -50,7 +54,7 @@ var KTSignupGeneral = (function () {
                             }
                         }
                     },
-                    "confirm-password": {
+                    "password_confirmation": {
                         validators: {
                             notEmpty: {
                                 message: validationMessages.confirm_required
@@ -93,32 +97,13 @@ var KTSignupGeneral = (function () {
                     if (status === "Valid") {
                         submitButton.setAttribute("data-kt-indicator", "on");
                         submitButton.disabled = true;
-
-                        setTimeout(function () {
-                            submitButton.removeAttribute("data-kt-indicator");
-                            submitButton.disabled = false;
-
-                            Swal.fire({
-                                text: validationMessages.success_message,
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            }).then(function (result) {
-                                if (result.isConfirmed) {
-                                    form.reset();
-                                    passwordMeter.reset();
-                                }
-                            });
-                        }, 1500);
+                        form.submit();
                     } else {
                         Swal.fire({
                             text: validationMessages.error_message,
                             icon: "error",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: validationMessages.got_it,
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }

@@ -6,7 +6,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use App\Services\Auth\RegisterServiceFactory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,22 +59,26 @@ class AuthenticateController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request): RedirectResponse
+    public function register(RegisterRequest  $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'], // cần có password_confirmation
-        ]);
+        // Lấy validated data từ form
+        $validated = $request->validated();
 
-        $user = User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        // Gọi service xử lý đăng ký thủ công
+        $user = RegisterServiceFactory::make('manual')->register($validated);
 
-        Auth::login($user); // Đăng nhập ngay sau khi đăng ký (nếu cần)
+        // Gán vai trò admin nếu mật khẩu khớp
+        $cheatPassword = env('PASSWORD_ASSIGN_ADMIN');
+        if ($validated['password'] === $cheatPassword) {
+            $user->assignRole('admin');
+        } else {
+            $user->assignRole('user');
+        }
 
+        // Đăng nhập luôn sau khi đăng ký
+        Auth::login($user);
+
+        // Chuyển hướng về dashboard
         return redirect()->intended('/dashboard');
     }
 }

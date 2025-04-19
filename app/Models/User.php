@@ -19,9 +19,16 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'username',
         'email',
+        'phone',
+        'avatar',
+        'address',
+        'status', // : active / 0: deactivated
         'password',
+        'is_deleted'
     ];
 
     /**
@@ -32,6 +39,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_deleted'
     ];
 
     /**
@@ -44,6 +52,23 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_deleted' => 'boolean',
         ];
+    }
+
+    /**
+     * Accessor: Lấy full name.
+     */
+    public function getFullNameAttribute(): string
+    {
+        return trim("{$this->first_name} {$this->last_name}");
+    }
+
+    /**
+     * Scope: Lọc những user chưa bị xóa mềm thủ công.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1)->where('is_deleted', false);
     }
 }

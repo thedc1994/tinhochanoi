@@ -24,10 +24,8 @@ return [
     'email'                   => 'Email',
     'phone'                   => 'Số điện thoại',
     'password_rule'           => 'Mật khẩu cần có ít nhất 8 ký tự, bao gồm chữ cái, số và ký tự đặc biệt.',
-    'confirm_password'        => 'Nhập lại mật khẩu',
+    'confirm_password'        => 'Xác nhận mật khẩu',
     'i_agree'                 => 'Tôi đồng ý với',
     'terms_and_conditions'    => 'các điều khoản và điều kiện',
     'submit'                  => 'Đăng ký',
-
-
 ];
